@@ -49,7 +49,7 @@ public class FloatView {
      */
     public void initViewParams() {
         mScaledDoubleTapSlop = ViewConfiguration.get(mContext).getScaledDoubleTapSlop();
-        mWindowManager = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
+        mWindowManager = (WindowManager) mContext.getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
         mScreenWidth = mWindowManager.getDefaultDisplay().getWidth();
         mParams = new WindowManager.LayoutParams();
 //        mParams.windowAnimations = R.style.dialog_anim;
@@ -57,7 +57,7 @@ public class FloatView {
         mParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
         mParams.format = PixelFormat.TRANSLUCENT; // 显示效果
         mParams.gravity = Gravity.START;
-        mParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY; //能在8.0新type
+        mParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
         mParams.flags = WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
                 | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                 | WindowManager.LayoutParams.FLAG_FULLSCREEN;
@@ -69,12 +69,14 @@ public class FloatView {
         mView = View.inflate(mContext, R.layout.view_float, null);
         mView.setLayoutParams(mParams);
         handleViewTouch();
+        mWindowManager.addView(mView, mParams);
     }
 
     public FloatView setView(View view) {
         if (view != null) {
             mPreView = mView;
             mView = view;
+            handleViewTouch();
         }
         return this;
     }
@@ -136,7 +138,9 @@ public class FloatView {
     public FloatView show() {
         mView.setOnClickListener(mListener);
         if (mView != mPreView) {
-            if (mPreView != null) mWindowManager.removeView(mPreView);
+            if (mPreView != null) {
+                mWindowManager.removeView(mPreView);
+            }
             mWindowManager.addView(mView, mParams);
         }
         return this;

@@ -16,7 +16,23 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        findViewById(R.id.tv).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                View view = View.inflate(MainActivity.this,R.layout.test_view,null);
+                view.findViewById(R.id.vv).setBackgroundColor(0xff00ffff);
+//        View view = null;
+                FloatView.getInstance(MainActivity.this)
+                        .setView(view)
+                        .setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Toast.makeText(MainActivity.this,"555",Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .show();
+            }
+        });
         if (Build.VERSION.SDK_INT >= 23) {
             if (!Settings.canDrawOverlays(this)) {
                 //启动Activity让用户授权
@@ -30,7 +46,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showFloatView() {
-        View view = null;
+        View view = View.inflate(this,R.layout.test_view,null);
+//        View view = null;
         FloatView.getInstance(this)
                 .setView(view)
                 .setOnClickListener(new View.OnClickListener() {
