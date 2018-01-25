@@ -33,6 +33,12 @@ public class MainActivity extends AppCompatActivity {
                         .show();
             }
         });
+        findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FloatView.getInstance(MainActivity.this).hide();
+            }
+        });
         if (Build.VERSION.SDK_INT >= 23) {
             if (!Settings.canDrawOverlays(this)) {
                 //启动Activity让用户授权
