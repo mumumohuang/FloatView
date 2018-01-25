@@ -47,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 showFloatView();
             }
+        }else {
+            showFloatView();
         }
 
     }
